@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-root
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu-root
+  template:
+    metadata:
+      labels:
+        app: ubuntu-root
+    spec:
+      containers:
+      - name: ubuntu-root
+        image: ubuntu:latest
+        command: ["/bin/bash"]
+        args: ["-c", "while true; do sleep 30; done"]
+        securityContext:
+          privileged: true
+          runAsUser: 0
+          runAsGroup: 0
+          allowPrivilegeEscalation: true
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
